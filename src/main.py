@@ -23,6 +23,8 @@ class ScoreCard:
     def stylizer(self) -> list:
         throws_listed = []
         throws = self.throws.replace('X','XX')
+        if len(throws) == 21:
+            throws += '-'
         for position,throw in enumerate(throws):
             if position%2 == 0:
                 continue
@@ -33,32 +35,37 @@ class ScoreCard:
         return throws_listed
 
     def Calcutale_frame(self,frame:str) -> int :
-        if frame[0] == 'X':
-            return 10
-        if frame[1] == '-':
-            return self.PUNTUATION[frame[0]]
+        if len(frame) == 1:
+            return self.PUNTUATION[frame]
         if frame[1] == '/':
             return self.PUNTUATION[frame[1]]
-        return sum(self.PUNTUATION[frame[0]],self.PUNTUATION[frame[1]])
+        return self.PUNTUATION[frame[0]] + self.PUNTUATION[frame[1]]
 
     def Calculate_Score(self) -> int:
         throws = self.stylizer()
         score = 0
-        for position,frame in enumerate(throws):
+        for position,frame in enumerate(throws[:10]):
             score += self.Calcutale_frame(frame)
-            if frame[1] == '/' or frame[0] == 'X':
+            if frame[0] == 'X' or frame[1] == '/':
                 try:
-                    score += self.Calcutale_frame(throws[position+1])
+                    score += self.Calcutale_frame(throws[position+1][0])
                 except Exception:
                     continue
             if frame[0] == 'X':
                 try:
-                    
-                    
-            
+                    if throws[position+1] == 'X':
+                        score += self.Calcutale_frame(throws[position+2][0])
+                    else:
+                        score += self.Calcutale_frame(throws[position+1][1])
+                        if throws[position+1][1] == '/' :
+                            score -= self.Calcutale_frame(throws[position+1][0])
+                except Exception:
+                    continue
+        return score
 
 
 if __name__ == "__main__":
     card1 = ScoreCard("8/549-XX5/53639/9/X")
     print(card1)
     print(card1.stylizer())
+    print(card1.Calculate_Score())
