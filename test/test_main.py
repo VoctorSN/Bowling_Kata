@@ -1,3 +1,20 @@
+from src.main import ScoreCard
+
+def test_todonumeros():
+    card = ScoreCard('12345123451234512345')
+    assert card.Calculate_Score() == 60
+
+def test_nueve_fallos():
+    assert ScoreCard('9-9-9-9-9-9-9-9-9-9-').Calculate_Score() == 90
+
+def test_numeros_fallos():
+    assert ScoreCard("9-3561368153258-7181").Calculate_Score() == 82
+
+def test_numeros_strikes():
+    card = ScoreCard('5/5/5/5/5/5/5/5/5/5/5')
+    assert card.Calculate_Score() == 150
+
+"""
 TotalScoreHittingPinsTest() {
 
 		# Hitting pins total = 60
@@ -127,5 +144,5 @@ TotalScoreStrikeTest() {
 		assertEquals(total, scoreCard.getTotalScore());
 
 }
-
+"""
 
