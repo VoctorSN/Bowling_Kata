@@ -1,6 +1,8 @@
 
 class ScoreCard:
     INITIAL_GAME_SCORE = 0
+    STRIKE = 'X'
+    SPARE = '/'
     SCORE_BY_PINS = {
         '1':1,
         '2':2,
@@ -59,14 +61,20 @@ class ScoreCard:
 
     def calculate_strike_or_spare(self,game:list,frame:str,position:int) -> None:
         self.game_score += self.Calcutale_frame_punctuation(frame) + self.Calcutale_frame_punctuation(game[position+1][0])
-        if frame[0] == 'X':
-            if game[position+1] == 'X':
+        if self.is_strike(frame):
+            if self.is_strike(game[position+1]):
                 self.game_score += self.Calcutale_frame_punctuation(game[position+2][0])
                 return None
             self.game_score += self.Calcutale_frame_punctuation(game[position+1][1])
-            if game[position+1][1] == '/' :
+            if self.is_spare(game[position+1][1]):
                 self.game_score -= self.Calcutale_frame_punctuation(game[position+1][0])
         return None
+    
+    def is_strike(self,frame:str) -> bool:
+        return frame[0] == self.STRIKE
+    
+    def is_spare(self,frame:str) -> bool:
+        return frame[1] == self.SPARE
 
 
 if __name__ == "__main__":
