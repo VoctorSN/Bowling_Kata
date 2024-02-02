@@ -22,7 +22,7 @@ class ScoreCard:
         self.game = game
 
     def __repr__(self) -> str:
-        return f"{' , '.join(self.stylizer())}"
+        return f"Tu carta es: {' , '.join(self.stylizer())}"
 
     def stylizer(self) -> list:
         pins = []
@@ -79,7 +79,7 @@ class ScoreCard:
 
 
 if __name__ == "__main__":
-    card1 = ScoreCard("8/549-XX5/53639/9/X")
+    card1 = ScoreCard("8/549-XX5/53639/1/X")
     print(card1)
     print(card1.stylizer())
     print(card1.Calculate_Score())
