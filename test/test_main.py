@@ -1,7 +1,7 @@
 from src.main import ScoreCard
 
 def test_repr():
-    assert str(ScoreCard("8/549-XX5/53639/1/X")) == 'Tu carta es: 8/ , 54 , 9- , X , X , 5/ , 53 , 63 , 9/ , 1/ , X'
+    assert repr(ScoreCard("8/549-XX5/53639/1/X")) == 'Tu carta es: 8/ , 54 , 9- , X , X , 5/ , 53 , 63 , 9/ , 1/ , X'
 
 def test_todonumeros():
     assert ScoreCard('12345123451234512345').Calculate_Score() == 60

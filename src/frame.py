@@ -18,9 +18,12 @@ class Frame:
     STRIKE = 'X'
     SPARE = '/'
     def __init__(self,frame:str):
-        self.frame = str(frame)
+        self.frame = repr(frame).replace("'","")
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
+        return f'Este frame es: |{self.frame[0]},{self.frame[1]}|'
+
+    def __repr__(self):
         return f'{self.frame}'
 
     def calcutale_frame_punctuation(self) -> int:
