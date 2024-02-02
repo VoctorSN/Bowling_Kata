@@ -1,22 +1,7 @@
 
+
 class ScoreCard:
     INITIAL_GAME_SCORE = 0
-    STRIKE = 'X'
-    SPARE = '/'
-    SCORE_BY_PINS = {
-        '1':1,
-        '2':2,
-        '3':3,
-        '4':4,
-        '5':5,
-        '6':6,
-        '7':7,
-        '8':8,
-        '9':9,
-        'X':10,
-        '/':10,
-        '-':0
-    }
     def __init__(self,game:str):
         self.game_score = self.INITIAL_GAME_SCORE
         self.game = game
@@ -31,55 +16,46 @@ class ScoreCard:
             game += '-'
         for position in range(1,len(game),2):
             roll = game[position]
-            if self.is_strike(roll):
+            if Frame(roll).is_strike():
                 pins.append(roll)
                 continue
             pins.append(game[position-1] + roll)
         return pins
 
-    def Calcutale_frame_punctuation(self,frame:str) -> int :
-        first_roll = frame[0]
-        if len(frame) == 1:
-            return self.SCORE_BY_PINS[first_roll]
-        second_roll = frame[1]
-        if self.is_spare(frame):
-            return self.SCORE_BY_PINS[second_roll]
-        return self.SCORE_BY_PINS[first_roll] + self.SCORE_BY_PINS[second_roll]
-
     def Calculate_Score(self) -> int:
         game = self.stylizer()
         for position,frame in enumerate(game[:10]):
-            if self.is_strike(frame):
+            frame = Frame(frame)
+            if frame.is_strike():
                 self.calculate_strike(game,frame,position)
-            elif self.is_spare(frame):
+            elif frame.is_spare():
                 self.calculate_spare(game,frame,position)
             else:
-                self.game_score += self.Calcutale_frame_punctuation(frame)
+                self.game_score += frame.calcutale_frame_punctuation()
         return self.game_score
 
     def calculate_strike(self,game:list,frame:str,position:int) -> None:
         self.calculate_spare(game,frame,position)
-        if self.is_strike(game[position+1]):
-            self.game_score += self.Calcutale_frame_punctuation(game[position+2][0])
+        if Frame(game[position+1]).is_strike():
+            self.game_score += Frame(game[position+2][0]).calcutale_frame_punctuation()
             return None
-        self.game_score += self.Calcutale_frame_punctuation(game[position+1][1])
-        if self.is_spare(game[position+1]) :
-            self.game_score -= self.Calcutale_frame_punctuation(game[position+1][0])
+        self.game_score += Frame(game[position+1][1]).calcutale_frame_punctuation()
+        if Frame(game[position+1]).is_spare() :
+            self.game_score -= Frame(game[position+1][0]).calcutale_frame_punctuation()
         return None
 
     def calculate_spare(self,game:list,frame:str,position:int) -> None:
         next_roll = game[position+1][0]
-        self.game_score += self.Calcutale_frame_punctuation(frame) + self.Calcutale_frame_punctuation(next_roll)
+        self.game_score += Frame(frame).calcutale_frame_punctuation() + Frame(next_roll).calcutale_frame_punctuation()
 
-    def is_strike(self,frame:str) -> bool:
-        return self.STRIKE in frame
 
-    def is_spare(self,frame:str) -> bool:
-        return self.SPARE in frame
 
 
 if __name__ == "__main__":
-    card1 = ScoreCard("8/549-XX5/53639/1/X")
+    from frame import Frame
+    card1 = ScoreCard('5/5/5/5/5/5/5/5/5/5/5')
     print(card1)
     print(card1.stylizer())
     print(card1.Calculate_Score())
+else:
+    from src.frame import Frame
