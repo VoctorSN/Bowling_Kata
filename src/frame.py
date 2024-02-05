@@ -13,8 +13,8 @@ class Frame:
         "/": 10,
         "-": 0,
     }
-    STRIKE = "X"
-    SPARE = "/"
+    __STRIKE = "X"
+    __SPARE = "/"
 
     def calcutale_frame_punctuation(self) -> int:
         """Returns a integer depending of the frame not caring if it has extra rolls or not"""
@@ -28,11 +28,11 @@ class Frame:
 
     def is_spare(self) -> bool:
         """Return if the frame is a spare or not"""
-        return self.SPARE in self.frame
+        return self.__SPARE in self.frame
 
     def is_strike(self) -> bool:
         """Return if the frame is a strike or not"""
-        return self.STRIKE in self.frame
+        return self.__STRIKE in self.frame
 
     def __init__(self, frame: str):
         self.frame = repr(frame).replace("'", "")
